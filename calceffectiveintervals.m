@@ -1,4 +1,4 @@
-function[effints] = calceffectiveintervals(EEG)
+function[effints] = calceffectiveintervals(EEG, eventtypes, timeinterval)
 
 tic
 intervals = getintervals(EEG);
