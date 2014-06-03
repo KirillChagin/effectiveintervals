@@ -1,8 +1,13 @@
-function[effinterval] = effectiveinterval(interval, offset)
+function[effinterval] = effectiveinterval(interval, timeinterval, offset)
 
 record = calcnegentropy(interval);
 leftrecord = 1;
+
 rightrecord = length(interval);
+if and(timeinterval > 0, timeinterval < length(interval))
+    rightrecord = timeinterval;
+end
+
 
 %brute-force search
 %
@@ -21,7 +26,7 @@ rightrecord = length(interval);
 %Lazarenko's algorithm
 
 stepdiv = 2;
-step = length(interval);
+step = rightrecord;
 while (step > 1)
     step = fix(step / stepdiv);
     left = leftrecord;
