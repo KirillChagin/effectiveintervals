@@ -24,7 +24,7 @@ for i=2:length(intervals)
     if (contains(1) == 1)
         for j=1:length(intervals{i}(:,1))
             %EEGReaction algorithm
-            effint = effectiveinterval(intervals{i}(j,:), intervalrate, currentoffset);
+            effint = effectiveinterval(intervals{i}(j,:), timeinterval, currentoffset);
             effints{j,i} = effint;
             disp(['i = ',num2str(i),' j = ', num2str(j)])
         end
