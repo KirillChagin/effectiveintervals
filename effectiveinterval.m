@@ -4,10 +4,11 @@ record = calcnegentropy(interval);
 leftrecord = 1;
 
 rightrecord = length(interval);
+max_right_value = rightrecord;
 if and(timeinterval > 0, timeinterval < length(interval))
     rightrecord = timeinterval;
+    max_right_value = timeinterval;
 end
-
 
 %brute-force search
 %
@@ -48,7 +49,7 @@ while (step > 1)
             left = leftrecord - step;
         end
         
-        if ((rightrecord + step) <= length(interval))
+        if ((rightrecord + step) <= max_right_value)
             curinterval = interval(leftrecord - step : rightrecord + step);
             result = calcnegentropy(curinterval);
             if (result > record)
@@ -68,7 +69,7 @@ while (step > 1)
         end 
     end
 
-    if ((rightrecord + step) <= length(interval))
+    if ((rightrecord + step) <= max_right_value)
         curinterval = interval(leftrecord : rightrecord + step);
         result = calcnegentropy(curinterval);
         if (result > record)
@@ -77,7 +78,7 @@ while (step > 1)
         end 
     end
     %left + step
-    if ((leftrecord + step) < length(interval))
+    if ((leftrecord + step) < max_right_value)
         if ((rightrecord - step) > (leftrecord + step)) 
             curinterval = interval(leftrecord + step : rightrecord - step);
             result = calcnegentropy(curinterval);
@@ -95,7 +96,7 @@ while (step > 1)
             left = leftrecord + step;
         end
         
-        if ((rightrecord + step) <= length(interval))
+        if ((rightrecord + step) <= max_right_value)
             curinterval = interval(leftrecord + step : rightrecord + step);
             result = calcnegentropy(curinterval);
             if (result > record)

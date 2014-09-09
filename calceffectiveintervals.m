@@ -9,7 +9,6 @@ currentoffset = 0;
 
 intervalrate_right = round((timeinterval_right * EEG.srate) / 1000);
 intervalrate_left = round((timeinterval_left * EEG.srate) / 1000);
-
 %loop for each component of the first interval (before the first event)
 for j=1:length(intervals{1}(:,1))
     %Empty interval for each component for the first interval
@@ -31,7 +30,6 @@ for i=2:length(intervals)
                 %EEGReaction algorithm
                 effint = effectiveinterval(intervals{i}(j,:), intervalrate_right, currentoffset);
                 effints{j,i} = effint;
-                disp(['i = ',num2str(i),' j = ', num2str(j)])
             elseif (previous_interval_length > intervalrate_left)
                 timed_interval = cat(2, intervals{i-1}(j,end-intervalrate_left:end), intervals{i}(j,:)); 
                 %EEGReaction algorithm
