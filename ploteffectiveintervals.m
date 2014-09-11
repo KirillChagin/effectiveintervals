@@ -16,7 +16,7 @@ for i=1:effintssize(2)
     end;
 end;
 
-pop_eegplot( EEG, 0, 1, 1, 1, 'winrej', winrej);
+pop_eegplot_wrapper( EEG, 0, 1, 1, 1, 'winrej', winrej);
 
 % icadata = (EEG.icaweights*EEG.icasphere)*EEG.data(EEG.icachansind,:);
 % eegplot(icadata, 'srate', EEG.srate, 'title', 'Scroll component activities -- eegplot()', ...

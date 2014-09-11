@@ -8,34 +8,25 @@ for i=1:effintssize(2)
         effint = effints{j,i};
         left = effint.offset + effint.left;
         right = effint.offset + effint.right;
+        if (i == 20 && j)
         channels = zeros(1,effintssize(1));
         channels(j) = 1;
         ind = (i-1)*effintssize(2) + j;
         winrej(ind,1:5) = [left right 1 1 1];
         winrej(ind,6:end) = channels;
+        left
+        right
+        end
     end;
 end;
 
-command = ...
-            [  '[EEGTMP LASTCOM] = eeg_eegrej(EEG,eegplot2event(TMPREJ, -1));' ...
-               'if ~isempty(LASTCOM),' ... 
-               '  [ALLEEG EEG CURRENTSET tmpcom] = pop_newset(ALLEEG, EEGTMP, CURRENTSET);' ...
-               '  if ~isempty(tmpcom),' ... 
-               '     EEG = eegh(LASTCOM, EEG);' ...
-               '     eegh(tmpcom);' ...
-               '     eeglab(''redraw'');' ...
-               '  end;' ...
-               'end;' ...
-               'clear EEGTMP tmpcom;' ];
-if EEG.nbchan > 100
-    disp('pop_eegplot() note: Baseline subtraction disabled to speed up display');
-    eegplotoptions = { eegplotoptions{:} 'submean' 'off' };
-end;
-icadata = (EEG.icaweights*EEG.icasphere)*EEG.data(EEG.icachansind,:);
-eegplot(icadata, 'srate', EEG.srate, 'title', 'Scroll component activities -- eegplot()', ...
-			 'limits', [EEG.xmin EEG.xmax]*1000, 'command', command, 'winrej',winrej, 'events', EEG.event); 
+pop_eegplot( EEG, 0, 1, 1, 1, 'winrej', winrej);
+
+% icadata = (EEG.icaweights*EEG.icasphere)*EEG.data(EEG.icachansind,:);
+% eegplot(icadata, 'srate', EEG.srate, 'title', 'Scroll component activities -- eegplot()', ...
+% 			 'limits', [EEG.xmin EEG.xmax]*1000, 'command', command, 'winrej',winrej, 'events', EEG.event); 
          
-% pop_eegplot( EEG, 0, 1, 1, 1, 'winrej', winrej);
+% 
 
 
 % epoch = 1:EEG.trials;
