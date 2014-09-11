@@ -40,21 +40,19 @@ while (step > 1)
             if (result > record)
                 record = result;
                 left = leftrecord - step;
-                right = rightrecord - step;   
+                right = rightrecord - step;
             end 
         end
         
-        if (rightrecord > leftrecord - step)
-            curinterval = interval(leftrecord - step : rightrecord);
-            result = calcnegentropy(curinterval);
-            if (result > record)
-                record = result;
-                left = leftrecord - step;
-                right = rightrecord;
-            end
+        if ()
+        curinterval = interval(leftrecord - step : rightrecord);
+        result = calcnegentropy(curinterval);
+        if (result > record)
+            record = result;
+            left = leftrecord - step;
         end
         
-        if ((rightrecord + step) <= max_right_value && rightrecord + step > leftrecord - step)
+        if ((rightrecord + step) <= max_right_value)
             curinterval = interval(leftrecord - step : rightrecord + step);
             result = calcnegentropy(curinterval);
             if (result > record)
@@ -70,17 +68,15 @@ while (step > 1)
         result = calcnegentropy(curinterval);
         if (result > record)
             record = result;
-            left = leftrecord;
             right = rightrecord - step;
         end 
     end
 
-    if ((rightrecord + step) <= max_right_value && rightrecord + step > leftrecord)
+    if ((rightrecord + step) <= max_right_value)
         curinterval = interval(leftrecord : rightrecord + step);
         result = calcnegentropy(curinterval);
         if (result > record)
             record = result;
-            left = leftrecord;
             right = rightrecord + step;
         end 
     end
@@ -96,17 +92,14 @@ while (step > 1)
             end 
         end
         
-        if (rightrecord > leftrecord + step)
-            curinterval = interval(leftrecord + step : rightrecord);
-            result = calcnegentropy(curinterval);
-            if (result > record)
-                record = result;
-                left = leftrecord + step;
-                right = rightrecord;
-            end
+        curinterval = interval(leftrecord + step : rightrecord);
+        result = calcnegentropy(curinterval);
+        if and(result > record, rightrecord > leftrecord + step)
+            record = result;
+            left = leftrecord + step;
         end
         
-        if ((rightrecord + step) <= max_right_value && rightrecord + step > leftrecord + step)
+        if ((rightrecord + step) <= max_right_value)
             curinterval = interval(leftrecord + step : rightrecord + step);
             result = calcnegentropy(curinterval);
             if (result > record)
@@ -119,6 +112,10 @@ while (step > 1)
     
     leftrecord = left;
     rightrecord = right;
-   
+    
+    if (leftrecord >= rightrecord)
+                leftrecord
+                rightrecord
+            end
 end
 effinterval = struct('negentropy', record, 'left', leftrecord, 'right', rightrecord, 'offset', offset);
