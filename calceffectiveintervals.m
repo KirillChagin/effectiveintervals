@@ -19,7 +19,12 @@ currentoffset = currentoffset + length(intervals{1}(1,:));
 %loop for each event intervals
 for i=2:length(intervals)
     %loop for each component in interval
-    contains = ismember(EEG.event(i - 1).type, eventtypes);
+    if isnumeric(EEG.event(i-1).type)
+        contains = ismember(num2str(EEG.event(i-1).type), eventtypes);
+    else
+        contains = ismember(EEG.event(i - 1).type, eventtypes);
+    end
+    
     
     previous_interval_length = length(intervals{i-1}(1,:));
     
