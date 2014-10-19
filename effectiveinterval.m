@@ -117,8 +117,10 @@ while (step > 1)
         end
     end
     
-    leftrecord = left;
-    rightrecord = right;
+    if (right - left > 3)
+        leftrecord = left;  
+        rightrecord = right;
+    end
    
 end
 effinterval = struct('negentropy', record, 'left', leftrecord, 'right', rightrecord, 'offset', offset);
