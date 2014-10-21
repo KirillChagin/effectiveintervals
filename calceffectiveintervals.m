@@ -33,17 +33,17 @@ for i=2:length(intervals)
             %getting a right part of previous interval for left limit
             if (intervalrate_left <= 0)
                 %EEGReaction algorithm
-                effint = effectiveinterval(intervals{i}(j,:), intervalrate_right, currentoffset);
+                effint = ga_effectiveinterval(intervals{i}(j,:), intervalrate_right, currentoffset);
                 effints{j,i} = effint;
             elseif (previous_interval_length > intervalrate_left)
                 timed_interval = cat(2, intervals{i-1}(j,end-intervalrate_left:end), intervals{i}(j,:)); 
                 %EEGReaction algorithm
-                effint = effectiveinterval(timed_interval, intervalrate_left + intervalrate_right, currentoffset - intervalrate_left);
+                effint = ga_effectiveinterval(timed_interval, intervalrate_left + intervalrate_right, currentoffset - intervalrate_left);
                 effints{j,i} = effint;
             else
                 timed_interval = cat(2, intervals{i-1}(j,:), intervals{i}(j,:)); 
                 %EEGReaction algorithm
-                effint = effectiveinterval(timed_interval, previous_interval_length + intervalrate_right, currentoffset - previous_interval_length);
+                effint = ga_effectiveinterval(timed_interval, previous_interval_length + intervalrate_right, currentoffset - previous_interval_length);
                 effints{j,i} = effint;
             end
             
