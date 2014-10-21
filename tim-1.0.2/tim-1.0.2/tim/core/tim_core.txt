@@ -1,0 +1,7 @@
+TIM Core
+========
+
+[[Parent]]: tim.txt
+
+TIM Core is the part of TIM which actually computes the estimates.
+
