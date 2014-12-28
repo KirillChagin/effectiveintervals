@@ -1,4 +1,4 @@
-function[effints] = calceffectiveintervals(EEG, eventtypes, timeinterval_left, timeinterval_right)
+function[effints] = calceffectiveintervals(EEG, eventtypes, timeinterval_left, timeinterval_right, constraint_left, constraint_right, superiority_coef, min_int_len)
 
 tic
 intervals = getintervals(EEG);
@@ -9,6 +9,9 @@ currentoffset = 0;
 
 intervalrate_right = round((timeinterval_right * EEG.srate) / 1000);
 intervalrate_left = round((timeinterval_left * EEG.srate) / 1000);
+constraintrate_right = round((constraint_right * EEG.srate) / 1000);
+constraintrate_left = round((constraint_left * EEG.srate) / 1000);
+min_int_len_rate = round((min_int_len * EEG.srate) / 1000);
 %loop for each component of the first interval (before the first event)
 for j=1:length(intervals{1}(:,1))
     %Empty interval for each component for the first interval
@@ -33,17 +36,20 @@ for i=2:length(intervals)
             %getting a right part of previous interval for left limit
             if (intervalrate_left <= 0)
                 %EEGReaction algorithm
-                effint = ga_effectiveinterval(intervals{i}(j,:), intervalrate_right, currentoffset);
+                %effint = ga_effectiveinterval(intervals{i}(j,:), intervalrate_right, currentoffset);
+                effint = effectiveinterval(intervals{i}(j,:), intervalrate_right, currentoffset, constraintrate_left, constraintrate_right, superiority_coef, min_int_len_rate);
                 effints{j,i} = effint;
             elseif (previous_interval_length > intervalrate_left)
                 timed_interval = cat(2, intervals{i-1}(j,end-intervalrate_left:end), intervals{i}(j,:)); 
                 %EEGReaction algorithm
-                effint = ga_effectiveinterval(timed_interval, intervalrate_left + intervalrate_right, currentoffset - intervalrate_left);
+                %effint = ga_effectiveinterval(timed_interval, intervalrate_left + intervalrate_right, currentoffset - intervalrate_left);
+                effint = effectiveinterval(timed_interval, intervalrate_left + intervalrate_right, currentoffset - intervalrate_left, constraintrate_left, constraintrate_right, superiority_coef, min_int_len_rate);
                 effints{j,i} = effint;
             else
                 timed_interval = cat(2, intervals{i-1}(j,:), intervals{i}(j,:)); 
                 %EEGReaction algorithm
-                effint = ga_effectiveinterval(timed_interval, previous_interval_length + intervalrate_right, currentoffset - previous_interval_length);
+                %effint = ga_effectiveinterval(timed_interval, previous_interval_length + intervalrate_right, currentoffset - previous_interval_length);
+                effint = effectiveinterval(timed_interval, previous_interval_length + intervalrate_right, currentoffset - previous_interval_length, constraintrate_left, constraintrate_right, superiority_coef, min_int_len_rate);
                 effints{j,i} = effint;
             end
             
