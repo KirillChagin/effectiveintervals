@@ -33,26 +33,37 @@ for i=2:length(intervals)
     
     if (contains(1) == 1)
         for j=1:length(intervals{i}(:,1))
+            %constructing timed_interval
+            timed_interval = intervals{i}(j,:);
+            timeinterval_param = intervalrate_right;
+            offset_param = currentoffset;
+            
             %getting a right part of previous interval for left limit
             if (intervalrate_left <= 0)
-                %EEGReaction algorithm
-                %effint = ga_effectiveinterval(intervals{i}(j,:), intervalrate_right, currentoffset);
-                effint = effectiveinterval(intervals{i}(j,:), intervalrate_right, currentoffset, constraintrate_left, constraintrate_right, superiority_coef, min_int_len_rate);
-                effints{j,i} = effint;
+                timed_interval = intervals{i}(j,:);
+                timeinterval_param = intervalrate_right;
+                offset_param = currentoffset; 
             elseif (previous_interval_length > intervalrate_left)
                 timed_interval = cat(2, intervals{i-1}(j,end-intervalrate_left:end), intervals{i}(j,:)); 
-                %EEGReaction algorithm
-                %effint = ga_effectiveinterval(timed_interval, intervalrate_left + intervalrate_right, currentoffset - intervalrate_left);
-                effint = effectiveinterval(timed_interval, intervalrate_left + intervalrate_right, currentoffset - intervalrate_left, constraintrate_left, constraintrate_right, superiority_coef, min_int_len_rate);
-                effints{j,i} = effint;
+                timeinterval_param = intervalrate_left + intervalrate_right;
+                offset_param = currentoffset - intervalrate_left; 
             else
-                timed_interval = cat(2, intervals{i-1}(j,:), intervals{i}(j,:)); 
-                %EEGReaction algorithm
-                %effint = ga_effectiveinterval(timed_interval, previous_interval_length + intervalrate_right, currentoffset - previous_interval_length);
-                effint = effectiveinterval(timed_interval, previous_interval_length + intervalrate_right, currentoffset - previous_interval_length, constraintrate_left, constraintrate_right, superiority_coef, min_int_len_rate);
-                effints{j,i} = effint;
+                timed_interval = cat(2, intervals{i-1}(j,:), intervals{i}(j,:));
+                timeinterval_param = previous_interval_length + intervalrate_right;
+                offset_param = currentoffset - previous_interval_length; 
             end
             
+            %add right interval if right bound is greater than interval lenght
+            if and(length(intervals{i}(j,:)) < intervalrate_right, i < length(intervals))
+                if (length(intervals{i}(j,:)) +  length(intervals{i+1}(j,:)) > intervalrate_right)
+                    timed_interval = cat(2, timed_interval, intervals{i+1}(j,1:intervalrate_right-length(intervals{i}(j,:))));
+                else
+                    timed_interval = cat(2, timed_interval, intervals{i+1}(j,:));
+                end
+            end
+            
+            effint = effectiveinterval(timed_interval, timeinterval_param, offset_param, constraintrate_left, constraintrate_right, superiority_coef, min_int_len_rate);
+            effints{j,i} = effint;
             disp(['i = ',num2str(i),' j = ', num2str(j)])
         end
     else
