@@ -11,3 +11,9 @@ m3 = mean(interval.^3);
 m4 = mean(interval.^4);
 k = m4 - 3*(m2^2);
 negentropy = (1/12)*(m3^2) + (1/48)*(k^2);
+
+%negentropy = k^2;
+
+%negentropy = (kurt(interval))^2;
+
+%negentropy = (kurtosis(interval))^2;
