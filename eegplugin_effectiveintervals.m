@@ -95,7 +95,7 @@ plot_callback = [ 'plotparams = selected_channels_gui;' ...
                      ];
                  
 uimenu( toolsmenu, 'Label', 'Calculate effective intervals', 'separator', 'on', 'CallBack', calceffintscallback);
-uimenu( toolsmenu, 'Label', 'Lazarenko effective intervals', 'separator', 'off', 'CallBack', lazarenko_calceffintscallback);
+%uimenu( toolsmenu, 'Label', 'Lazarenko effective intervals', 'separator', 'off', 'CallBack', lazarenko_calceffintscallback);
 plotmenu = findobj(fig, 'tag', 'plot');
 uimenu( plotmenu, 'Label', 'Plot effective intervals', 'separator', 'on', 'CallBack', plot_callback);
-uimenu( plotmenu, 'Label', 'Plot Lazarenko effective intervals', 'separator', 'off', 'CallBack', lazarenko_plot_callback);
+%uimenu( plotmenu, 'Label', 'Plot Lazarenko effective intervals', 'separator', 'off', 'CallBack', lazarenko_plot_callback);
