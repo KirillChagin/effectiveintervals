@@ -15,8 +15,10 @@ function[mean_effint] = get_mean_effint_for_component(EEG, EFFINTS, comp_num, ev
         end
         
         if (~isempty(contains) && contains(1) == 1)
+            if (~(effints_for_comp{i}.left == 1 && effints_for_comp{i}.right == 1))
             lefts(i) = mod(effints_for_comp{i}.offset + effints_for_comp{i}.left, EEG.pnts);
             rights(i) = lefts(i) + (effints_for_comp{i}.right - effints_for_comp{i}.left);
+            end
         end
     end
     
