@@ -64,7 +64,7 @@ for i=2:length(intervals)
             %%% Calculate ERSP and get effective interval with max
             %%% negentropy for all freqs
             tlimits = [0 length(timed_interval)];
-            cycles = [3 0.5];
+            cycles = [0.3 0.5];
             options = [];
             options = [ options ', ''plotersp'',  ''off'',  ''plotitc'',  ''off'', ''plotphasesign'',  ''off'', ''baseline'', [0], ''plotphase'', ''off'', ''padratio'', [1], ''timesout'', -1' ];
             
@@ -117,14 +117,14 @@ for i=2:length(intervals)
             effint_right = round((times(max_right) * EEG.srate) / 1000);
             
             %%% ----------------------------------------------------------
-            effint = struct('negentropy', max_negentropy, 'left', effint_left, 'right', effint_right, 'offset', offset_param);
+            effint = struct('negentropy', max_negentropy, 'left', effint_left, 'right', effint_right, 'offset', offset_param, 'event', EEG.event(i-1).type);
             effints{j,i} = effint;
             disp(['i = ',num2str(i),' j = ', num2str(j), ' ersp_int_ms = ', num2str(ersp_timeinterval_ms), ' ersp_int_param = ', num2str(ersp_timeinterval_param), ' max_right = ', num2str(max_right), ' effint_right = ', num2str(effint_right)])
         end
     else
         for j=1:length(intervals{i}(:,1))
             %Empty interval for each component for unselected event
-            effint = struct('negentropy', -1, 'left', 1, 'right', 1, 'offset', currentoffset);
+            effint = struct('negentropy', -1, 'left', 1, 'right', 1, 'offset', currentoffset, 'event', EEG.event(i-1).type);
             effints{j,i} = effint;
             disp(['skip i = ',num2str(i),' j = ', num2str(j)])
         end

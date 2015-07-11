@@ -64,7 +64,7 @@ for i=2:length(intervals)
             %%% Calculate ERSP and get effective interval with max
             %%% negentropy for all freqs
             tlimits = [0 length(timed_interval)];
-            cycles = [3 0.5];
+            cycles = [0.3 0.5];
             options = [];
             options = [ options ', ''plotersp'',  ''off'',  ''plotitc'',  ''off'', ''plotphasesign'',  ''off'', ''baseline'', [0], ''plotphase'', ''off'', ''padratio'', [1], ''timesout'', -1' ];
             
@@ -113,8 +113,8 @@ for i=2:length(intervals)
                 neg_effints(f,3) = neg_effint.right;
             end
             
-            %%% Sort by negentropy and take nfreqs/3 first  
-            rowscnt = ceil(nfreqs/3);
+            %%% Sort by negentropy and take nfreqs/4 first  
+            rowscnt = ceil(nfreqs/4);
             neg_effints = sortrows(neg_effints,-1);
             neg_effints = neg_effints(1:rowscnt,:);
             
